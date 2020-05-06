@@ -1,6 +1,31 @@
 import React, {Component} from 'react';
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            body: ""
+        }
+
+        //bind
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleSubmit(e) {
+        //Prevents page reload
+        e.preventDefault();
+
+        console.log(this.state.body);
+    }
+
+    handleChange(e) {
+        this.setState({
+            body:e.target.value
+        });
+    }
+
     render() {
         return (
             <div className="container">
@@ -12,9 +37,10 @@ class App extends Component {
                             </div>
 
                             <div className="card-body">
-                                <form>
+                                <form onSubmit={this.handleSubmit}>
                                     <div className="form-group">
                                         <textarea
+                                            onChange={this.handleChange}
                                             className="form-control"
                                             rows="5"
                                             maxLength="140"
