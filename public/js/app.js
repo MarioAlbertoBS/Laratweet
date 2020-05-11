@@ -65953,7 +65953,8 @@ var App = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      body: ""
+      body: "",
+      posts: []
     }; //bind
 
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -65964,10 +65965,22 @@ var App = /*#__PURE__*/function (_Component) {
   _createClass(App, [{
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       //Prevents page reload
       e.preventDefault();
-      console.log(this.state.body);
-      this.postData();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/posts', {
+        body: this.state.body
+      }).then(function (response) {
+        console.log(response);
+
+        _this2.setState({
+          posts: [response.data]
+        });
+      });
+      this.setState({
+        body: ""
+      });
     }
   }, {
     key: "postData",
@@ -66003,6 +66016,7 @@ var App = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        value: this.state.body,
         onChange: this.handleChange,
         className: "form-control",
         rows: "5",
@@ -66019,9 +66033,13 @@ var App = /*#__PURE__*/function (_Component) {
         className: "card"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-header"
-      }, "App Component"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Recent Tweets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, "I'm an App component!")))));
+      }, this.state.posts.map(function (post) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: post.id
+        }, post.body);
+      }))))));
     }
   }]);
 

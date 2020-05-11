@@ -6,7 +6,8 @@ class App extends Component {
         super(props);
 
         this.state = {
-            body: ""
+            body: "",
+            posts: []
         }
 
         //bind
@@ -17,10 +18,18 @@ class App extends Component {
     handleSubmit(e) {
         //Prevents page reload
         e.preventDefault();
-
-        console.log(this.state.body);
-
-        this.postData();
+        
+        axios.post('/posts', {
+            body: this.state.body
+        }).then(response => {
+            console.log(response);
+            this.setState({
+                posts: [response.data]
+            })
+        });
+        this.setState({
+            body: ""
+        });
     }
 
     postData() {
@@ -49,6 +58,7 @@ class App extends Component {
                                 <form onSubmit={this.handleSubmit}>
                                     <div className="form-group">
                                         <textarea
+                                            value={this.state.body}
                                             onChange={this.handleChange}
                                             className="form-control"
                                             rows="5"
@@ -69,10 +79,13 @@ class App extends Component {
 
                     <div className="col-md-6">
                         <div className="card">
-                            <div className="card-header">App Component</div>
-
+                            <div className="card-header">Recent Tweets</div>
                             <div className="card-body">
-                                I'm an App component!
+                                {this.state.posts.map(post => 
+                                    <div key={post.id}>
+                                        {post.body}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
