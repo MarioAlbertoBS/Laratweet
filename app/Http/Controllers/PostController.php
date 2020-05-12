@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 
+use App\Events\PostCreated;
+
 class PostController extends Controller
 {
     /**
@@ -16,6 +18,9 @@ class PostController extends Controller
         $createdPost = $request->user()->posts()->create([
             'body' => $request->body
         ]);
+
+        //Send a PostCreated to all the other users
+        broadcast(new PostCreated($createdPost, $request->user()))->toOthers();
 
         //Return response, retrive the newest post data with the correspondent user data
         return response()->json($post->with('user')->find($createdPost->id));

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import Echo from 'laravel-echo';
 
 class App extends Component {
     constructor(props) {
@@ -26,10 +27,9 @@ class App extends Component {
         axios.post('/posts', {
             body: this.state.body
         }).then(response => {
-            console.log(response);
             //Save the new post in the state
             this.setState({
-                posts: [...this.state.posts, response.data]
+                posts: [response.data, ...this.state.posts]
             })
         });
         //Clear the textarea
@@ -53,11 +53,20 @@ class App extends Component {
     }
 
     componentDidMount() {
-        this.interval = setInterval(() =>this.getPosts(), 10000);
+        //Listen the PostCreated event from the backend
+        window.Echo.private('new-post').listen('PostCreated', (e) => {
+            //Check if the poster id correspond to a following user
+            if (window.Laravel.user.following.includes(e.post.user_id)) {
+                this.setState({
+                    posts: [e.post, ...this.state.posts]
+                });
+            }
+        });
+        //this.interval = setInterval(() =>this.getPosts(), 10000);
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval);
+        //clearInterval(this.interval);
     }
 
     handleChange(e) {
