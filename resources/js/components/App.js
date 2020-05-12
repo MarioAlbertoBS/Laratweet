@@ -19,14 +19,17 @@ class App extends Component {
         //Prevents page reload
         e.preventDefault();
         
+        //Perform a post request on the host/posts url
         axios.post('/posts', {
             body: this.state.body
         }).then(response => {
             console.log(response);
+            //Save the new post in the state
             this.setState({
-                posts: [response.data]
+                posts: [...this.state.posts, response.data]
             })
         });
+        //Clear the textarea
         this.setState({
             body: ""
         });
@@ -81,11 +84,24 @@ class App extends Component {
                         <div className="card">
                             <div className="card-header">Recent Tweets</div>
                             <div className="card-body">
-                                {this.state.posts.map(post => 
-                                    <div key={post.id}>
-                                        {post.body}
+                                {this.state.posts.map(post => (
+                                    <div key={post.id} className="media">
+                                        <div className="media-left">
+                                            <img
+                                                src={post.user.avatar}
+                                                className="media-object mr-2"
+                                            ></img>
+                                        </div>
+                                        <div className="media-body">
+                                            <div className="user">
+                                                <a href={`/users/${post.user.username}`}>
+                                                    {post.user.username}
+                                                </a>
+                                            </div>
+                                            <p>{post.body}</p>
+                                        </div>
                                     </div>
-                                )}
+                                ))}
                             </div>
                         </div>
                     </div>
