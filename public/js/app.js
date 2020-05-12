@@ -65966,11 +65966,14 @@ var App = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       body: "",
-      posts: []
+      posts: [],
+      loading: false
     }; //bind
 
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.getPosts = _this.getPosts.bind(_assertThisInitialized(_this));
+    _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -65997,17 +66000,63 @@ var App = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
-    key: "postData",
-    value: function postData() {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/posts', {
-        body: this.state.body
+    key: "getPosts",
+    value: function getPosts() {
+      var _this3 = this;
+
+      //this.setState({loading: true});
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/posts').then(function (response) {
+        _this3.setState({
+          posts: _toConsumableArray(response.data.posts) //loading: false
+
+        });
       });
+    }
+  }, {
+    key: "UNSAFE_componentWillMount",
+    value: function UNSAFE_componentWillMount() {
+      this.getPosts();
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this4 = this;
+
+      this.interval = setInterval(function () {
+        return _this4.getPosts();
+      }, 10000);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.interval);
     }
   }, {
     key: "handleChange",
     value: function handleChange(e) {
       this.setState({
         body: e.target.value
+      });
+    }
+  }, {
+    key: "renderPosts",
+    value: function renderPosts() {
+      return this.state.posts.map(function (post) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          key: post.id,
+          className: "media"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "media-left"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: post.user.avatar,
+          className: "media-object mr-2"
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "media-body"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "user"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+          href: "/users/".concat(post.user.username)
+        }, post.user.username), " - ", post.humanCreatedAt), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body)));
       });
     }
   }, {
@@ -66049,23 +66098,7 @@ var App = /*#__PURE__*/function (_Component) {
         className: "card-header"
       }, "Recent Tweets"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card-body"
-      }, this.state.posts.map(function (post) {
-        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          key: post.id,
-          className: "media"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "media-left"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-          src: post.user.avatar,
-          className: "media-object mr-2"
-        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "media-body"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-          className: "user"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-          href: "/users/".concat(post.user.username)
-        }, post.user.username)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, post.body)));
-      }))))));
+      }, this.state.loading ? 'Loading...' : this.renderPosts())))));
     }
   }]);
 
