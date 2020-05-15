@@ -44,6 +44,11 @@ class PostCreated implements ShouldBroadcast
         ];
     }
 
+    public function broadcastAs()
+    {
+        return 'new-following-post';
+    }
+
     /**
      * Set a response object to the event
      */
