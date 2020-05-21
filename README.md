@@ -1,7 +1,6 @@
 Laravel + React Udemy Course.
 
 A twitter like app using Laravel + MySQL as Backend and ReactJS as Frontend
-<<<<<<< HEAD
 
 The SocketIO branch to see a version working with Socket.io and Laravel Echo Server
 
@@ -27,9 +26,3 @@ Steps:
 - Run your laravel echo server "laravel-echo-server start"
 - Run your app "php artisan serve"
 - Compile the javascript "npm run dev"
-=======
-Using Pusher to develop a real time app.
-
-Can you found the course here:
-https://www.udemy.com/course/laravel-react/
->>>>>>> 2471488f47d62e23d9b398ba66f5ea4d9c57a831
