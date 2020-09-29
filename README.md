@@ -11,7 +11,7 @@ Requirements to run:
 
 Steps:
 - Download Repo
-- composer require
+- composer install
 - npm install
 - Make sure you have the laravel echo server installed globally "npm install -g laravel-echo-server"
 - Make sure you have the following configuration in your .env
