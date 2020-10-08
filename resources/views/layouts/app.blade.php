@@ -51,6 +51,11 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                        <!-- Search bar -->
+                        <form class="form-inline my-2 my-lg-0" action={{route('users.search')}}>
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search for People..." aria-label="Search" name="user">
+                            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">Search</button>
+                        </form>
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">

@@ -16,6 +16,15 @@ class UserController extends Controller
     }
 
     /**
+     * Find a user
+     */
+    public function findByName(Request $request)
+    {
+        $users = User::where('username', 'LIKE', '%' . $request->user . '%')->get();
+        return view('users.search', compact('users'));
+    }
+
+    /**
      * Follows an user
      */
     public function follow(Request $request, User $user)

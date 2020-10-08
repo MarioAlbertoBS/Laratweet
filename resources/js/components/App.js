@@ -53,15 +53,15 @@ class App extends Component {
 
     componentDidMount() {
         //Listen the PostCreated event from the backend
-        window.Echo.private('new-post').listen('.new-following-post', (e) => {
-            console.log(e);
-            //Check if the poster id correspond to a following user
-            if (window.Laravel.user.following.includes(e.post.user_id)) {
-                this.setState({
-                    posts: [e.post, ...this.state.posts]
-                });
-            }
-        });
+        // window.Echo.private('new-post').listen('.new-following-post', (e) => {
+        //     console.log(e);
+        //     //Check if the poster id correspond to a following user
+        //     if (window.Laravel.user.following.includes(e.post.user_id)) {
+        //         this.setState({
+        //             posts: [e.post, ...this.state.posts]
+        //         });
+        //     }
+        // });
         //this.interval = setInterval(() =>this.getPosts(), 10000);
     }
 

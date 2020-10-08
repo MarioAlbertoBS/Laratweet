@@ -3,6 +3,9 @@
 //Set defualt authentication routes
 Auth::routes();
 
+//User search, no authentication required
+Route::get('/search', 'UserController@findByName')->name('users.search');
+
 //Set authentication protected routes
 Route::group(['middleware' => ['auth']], function() {
     Route::get('/', 'TimelineController@index');
